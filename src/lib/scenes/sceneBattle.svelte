@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
     import {changeScene, takeDamage, addXp, checkItem, addItemToInventory} from '$lib/gameActions.js'
-    import { inventory } from '$lib/gameStore.js';
+    import { inventory, strengthModifier} from '$lib/gameStore.js';
 
     let monsterHp = $state(30);
     let heroHasWeapon = $derived(checkItem($inventory, "Іржавий меч"));
@@ -15,10 +15,10 @@
 
     function attack() {
         if (heroHasWeapon) {
-            monsterHp -= 10;
+            monsterHp -= Math.floor(10 * $strengthModifier);
             combatLogUpdate('Ви вдарили мечем на 10 шкоди');
         } else {
-            monsterHp -= 3;
+            monsterHp -= Math.floor(3 * $strengthModifier);
             combatLogUpdate('Ви вдарили кулаком на 3 шкоди');
         }
         if (monsterHp <= 0) {

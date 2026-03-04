@@ -6,8 +6,12 @@ import { writable, derived } from 'svelte/store';
 export const currentScene = writable("Forest");
 export const heroName = writable("Мандрівник");
 export const hp = writable(100);
+export const hpMax = writable(100);
 export const xp = writable(150);
+export const gold = writable(123);
 export const inventory = writable(["Іржавий меч", "Зілля здоров'я", "Смолоскип"]);
+export const currentDay = writable(1);
+export const strengthModifier = writable(1);
 
 // Діалоги
 export const enterToCity = [
@@ -18,9 +22,10 @@ export const enterToCity = [
 
 //Флаги
 export const flags = writable({
-	cityGateIsOpen: false,
+	cityGateIsOpen: true, // false
 	cityGateKeyTaken: false,
     visitedTheCity: false,
+    searchCoinsToday: false,
 })
 
 // DERIVED ЗМІННІ

@@ -11,4 +11,5 @@
 <button onclick={questActionTakeKey}>Підняти старий ключ</button>
 {/if}
 <button onclick={() => takeDamage(5,10)}>Наступити на пастку</button>
+<button onclick={() => changeScene("Battle")}>Полювати на вовків</button>
 <button onclick={() => changeScene("Town")}>Піти у місто</button>

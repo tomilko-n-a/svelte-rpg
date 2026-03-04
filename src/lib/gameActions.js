@@ -1,12 +1,22 @@
 // gameActions.js
 // @ts-nocheck
-import { hp, xp, currentScene, inventory, isAlive, flags} from './gameStore.js';
-
+import { hp, hpMax, xp, currentScene, inventory, isAlive, flags, gold, level, strengthModifier} from './gameStore.js';
+import { get } from 'svelte/store';
 
 
 export function changeScene(sceneName) {
     currentScene.set(sceneName);
 }
+
+export function changeGold(amount) {
+    gold.update(currentGold => currentGold + amount);
+    if (amount < 0) {
+        console.log(amount +" золота")
+    } else {
+        console.log("+"+ amount +" золота")
+    }
+}
+
 
 /**
  * З певним шансом змінює сцену
@@ -39,11 +49,17 @@ export function addItemToInventory(itemName) {
 export function checkItem(items, itemName) {
     return items.includes(itemName);
 }
+export function changeHp(amount){
+    hp.update(currentHp => {
+        const newHp = currentHp + amount;
+        return Math.max(0, Math.min(newHp, get(hpMax)))
+    });
+}
 
 export function useItem(itemName) {
     console.log("Ви використали " + itemName);
     if (itemName == "Зілля здоров'я") {
-        hp.update(currentHp => currentHp + 20);
+        changeHp(20);
         removeItemFromInventory(itemName);
 				console.log("Ви відновили "+ 20 +" здоров'я")
     }   
@@ -51,7 +67,7 @@ export function useItem(itemName) {
 
 export function takeDamage(min, max) {
 		let damage = (min + Math.floor((Math.random() * (max - min))));
-        hp.update(currentHp => currentHp - damage);
+        changeHp(-damage);
 		console.log("Ви отримали "+ damage +" урону")
         return damage;
 }
@@ -89,7 +105,10 @@ isAlive.subscribe((alive) => {
 });
 
 
-
+level.subscribe(() => {
+    hpMax.update(currentMax => currentMax + 10);
+    strengthModifier.update(currentstrengthModifier => Math.round((currentstrengthModifier + 0.1)*10)/10);
+});
 
 
 
