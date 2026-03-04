@@ -1,11 +1,23 @@
 // gameActions.js
+// @ts-nocheck
+import { hp, xp, currentScene, inventory, isAlive, flags} from './gameStore.js';
 
-import { hp, currentScene, inventory, isAlive, flags} from './gameStore.js';
+
 
 export function changeScene(sceneName) {
     currentScene.set(sceneName);
 }
 
+/**
+ * З певним шансом змінює сцену
+ * @param {number} chance - шанс спрацювання. Діапазон [1...100]
+ * @param {string} sceneName - яку саме сцену 
+ */
+export function randomEvent(chance, sceneName){
+    if (Math.random() * 100 < chance) {
+        changeScene(sceneName);
+    }
+}
 export function removeItemFromInventory(itemName) {
     inventory.update(currentItems => {
 				const index = currentItems.indexOf(itemName);
@@ -37,10 +49,16 @@ export function useItem(itemName) {
     }   
 }
 
-export function takeDamage() {
-		let damage = (5 + Math.floor((Math.random() * 5)));
-    hp.update(currentHp => currentHp - damage);
+export function takeDamage(min, max) {
+		let damage = (min + Math.floor((Math.random() * (max - min))));
+        hp.update(currentHp => currentHp - damage);
 		console.log("Ви отримали "+ damage +" урону")
+        return damage;
+}
+
+export function addXp(amount) {
+    xp.update(currentXp => currentXp + amount)
+    console.log("Ви отримали "+ amount +" XP");
 }
 
 // КВЕСТОВІ ДІЇ

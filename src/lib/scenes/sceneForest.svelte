@@ -1,12 +1,14 @@
 <script>
 	// sceneForest.svelte
-	import {takeDamage, changeScene, addItemToInventory, checkItem, questActionTakeKey} from '$lib/gameActions.js'
+	import {takeDamage, changeScene, addItemToInventory, checkItem, questActionTakeKey, randomEvent} from '$lib/gameActions.js'
 	import { inventory, flags} from '$lib/gameStore.js';
+	$effect(() => {
+        randomEvent(50, "Battle"); // 30% шанс нападу вовка при вході
+    });
 </script>
-
 <h1>Ліс</h1>
 {#if !$flags.cityGateKeyTaken}
-<button on:click={questActionTakeKey}>Підняти старий ключ</button>
+<button onclick={questActionTakeKey}>Підняти старий ключ</button>
 {/if}
-<button on:click={takeDamage}>Наступити на пастку</button>
-<button on:click={() => changeScene("Town")}>Піти у місто</button>
+<button onclick={() => takeDamage(5,10)}>Наступити на пастку</button>
+<button onclick={() => changeScene("Town")}>Піти у місто</button>
