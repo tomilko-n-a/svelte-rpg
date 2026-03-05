@@ -1,8 +1,9 @@
 // gameActions.js
 // @ts-nocheck
-import { hp, hpMax, xp, currentScene, inventory, isAlive, flags, gold, level, strengthModifier} from './gameStore.js';
+import { hp, hpMax, xp, currentScene, inventory, gold, level, strengthModifier} from './gameStore.js';
 import { get } from 'svelte/store';
-
+import { player } from '$lib/state/player.svelte.js';
+import { flags } from '$lib/state/flags.svelte.js';
 
 export function changeScene(sceneName) {
     currentScene.set(sceneName);
@@ -65,6 +66,11 @@ export function useItem(itemName) {
     }   
 }
 
+export function randBetween(min, max) {
+		return (min + Math.floor((Math.random() * (max - min))))
+}
+
+
 export function takeDamage(min, max) {
 		let damage = (min + Math.floor((Math.random() * (max - min))));
         changeHp(-damage);
@@ -79,36 +85,31 @@ export function addXp(amount) {
 
 // КВЕСТОВІ ДІЇ
 export function questActionOpenCityGate() {
-		removeItemFromInventory("Старий ключ");
-    flags.update(currentFlags => {
-        currentFlags.cityGateIsOpen = true;
-        return currentFlags;
-    });
-		console.log("Ви відчинили браму")
+    player.removeItem("Старий ключ");
+
+    flags.cityGateIsOpen = true; 
+    
+    console.log("Ви відчинили браму");
 }
 
 export function questActionTakeKey() {
-    addItemToInventory("Старий ключ");
-    // Оновлюємо лише одну властивість всередині об'єкта
-    flags.update(currentFlags => {
-        currentFlags.cityGateKeyTaken = true;
-        return currentFlags;
-    });
+    player.addItem("Старий ключ");
+    
+    flags.cityGateKeyTaken = true;
 }
 
 
 // Дії по підписці
-isAlive.subscribe((alive) => {
-    if (!alive) {
-        changeScene("End Game");
-    }
-});
 
+// level.subscribe(() => {
+//     let currentHp = (get(hp) == get(hpMax));
+//     hpMax.update(currentMax => currentMax + 10);
+//     if (currentHp) {
+//         changeHp(get(hpMax))
+//     }
+//     strengthModifier.update(currentstrengthModifier => Math.round((currentstrengthModifier + 0.1)*10)/10);
 
-level.subscribe(() => {
-    hpMax.update(currentMax => currentMax + 10);
-    strengthModifier.update(currentstrengthModifier => Math.round((currentstrengthModifier + 0.1)*10)/10);
-});
+// });
 
 
 

@@ -1,24 +1,12 @@
 // gameStore.js
 // @ts-nocheck
 import { writable, derived } from 'svelte/store';
+import { player } from '$lib/state/player.svelte.js';
 
-// WRITABLE ЗМІННІ
+
+// Game
 export const currentScene = writable("Forest");
-export const heroName = writable("Мандрівник");
-export const hp = writable(100);
-export const hpMax = writable(100);
-export const xp = writable(150);
-export const gold = writable(123);
-export const inventory = writable(["Іржавий меч", "Зілля здоров'я", "Смолоскип"]);
 export const currentDay = writable(1);
-export const strengthModifier = writable(1);
-
-// Діалоги
-export const enterToCity = [
-    { speaker: "Охоронець", text: "Стій! Хто йде?" },
-    { speaker: "Мандрівник", text: "Я просто мандрівник, шукаю пригод." },
-    { speaker: "Охоронець", text: "Проходь, але не роби проблем." }
-	];
 
 //Флаги
 export const flags = writable({
@@ -28,9 +16,33 @@ export const flags = writable({
     searchCoinsToday: false,
 })
 
+// Player
+export const Player = writable({
+    name: "Мандрівник",
+    hpMax: 100,
+    hp: 100,
+    xp: 150,
+    strengthModifier: 1,
+    gold: 123,
+    inventory: ["Іржавий меч", "Зілля здоров'я", "Смолоскип"]
+})
+
+export const heroName = writable("Мандрівник");
+export const hpMax = writable(100);
+export const hp = writable(100);
+export const xp = writable(150);
+export const strengthModifier = writable(1);
+export const gold = writable(123);
+export const inventory = writable(["Іржавий меч", "Зілля здоров'я", "Смолоскип"]);
+
+
+// Діалоги
+export const enterToCity = [
+    { speaker: "Охоронець", text: "Стій! Хто йде?" },
+    { speaker: "Мандрівник", text: "Я просто мандрівник, шукаю пригод." },
+    { speaker: "Охоронець", text: "Проходь, але не роби проблем." }
+	];
+
 // DERIVED ЗМІННІ
 export const level = derived(xp, ($xp) => Math.floor($xp / 100) + 1);
-export const isAlive = derived(hp, ($hp) => $hp > 0);
 
-// шаблон змінної глобального сховища
-//export const  = writable();
