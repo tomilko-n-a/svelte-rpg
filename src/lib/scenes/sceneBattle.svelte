@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
-    import {changeScene, takeDamage, addXp, checkItem, addItemToInventory, randBetween} from '$lib/gameActions.svelte.js'
-    import { inventory } from '$lib/gameStore.js';
+    import { sceneManager } from '$lib/core/scenesManager.svelte.js';
+    import { randBetween} from '$lib/gameActions.svelte.js'
     import { player } from '$lib/state/player.svelte.js'
 
     let monsterHp = $state(30);
@@ -24,7 +24,7 @@
         }
         if (monsterHp <= 0) {
             monsterHp = 0;
-            addXp(50)
+            player.addXp(50)
             player.addItem("Вовче ікло");
             combatLogUpdate("Ви здобули Вовче ікло")
             battleEnd = true;
@@ -38,7 +38,7 @@
 </script>
 
 {#if battleEnd}
-    <button onclick={() => changeScene("Forest")}>Покинути місце сутички</button>
+    <button onclick={() => sceneManager.changeScene("Forest")}>Покинути місце сутички</button>
 {:else}
     <h4>Дикий Вовк</h4>
     <p>Здоров'я: {monsterHp}</p>

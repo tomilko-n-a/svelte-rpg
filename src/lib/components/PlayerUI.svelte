@@ -1,15 +1,15 @@
 <script>
 	import Inventory from '$lib/components/Inventory.svelte'
 	import { player } from '$lib/state/player.svelte.js'
-	import { currentDay } from '$lib/gameStore.js'
-	import { useItem } from '$lib/gameActions.svelte.js'
+	import { currentDay } from '$lib/gameStore.svelte.js'
 </script>
+
+{#if player.isAlive} 
+
 <div>
 	<div>
-	<p> День: {$currentDay}</p>
-	<p>|</p>
-	</div>
-	<div>
+		<p> День: {currentDay}</p>
+		<p>|</p>
 		<p>{player.name}</p>
 		<p>|</p>
 		<p>Здоров'я: {player.hp}/{player.hpMax}</p>
@@ -26,6 +26,7 @@
 
 <Inventory items={player.inventory} onUse={(item) => player.removeItem(item)}/>
 <hr>
+{/if}
 
 <style>
 	div {

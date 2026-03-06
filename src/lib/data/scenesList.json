@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Forest",
+        "description": "Густий ліс, що оточує місто. В ньому все ще водяться дикі звірі.",
+        "component": "sceneForest.svelte",
+        "transition": ["Town Gate"]
+    },
+    {
+        "name": "Town",
+        "description": "Звичайне на вид містечко, оточене високою кам'яною стіною з великою брамою.",
+        "component": "sceneTown.svelte",
+        "transition": ["Forest", "Town Gate"]
+    },
+    {
+        "name": "Town Gate",
+        "description": "Велика брама, що захищає єдиний вхід до міста.",
+        "component": "sceneTownGate.svelte",
+        "transition": ["Town", "Forest"]
+    },
+    {
+        "name": "Battle",
+        "description": "",
+        "component": "sceneBattle.svelte",
+        "transition": ["Any"]
+    },
+    {
+        "name": "End Game",
+        "description": "",
+        "component": "sceneEndGame.svelte",
+        "transition": ["Any"]
+    }
+]
